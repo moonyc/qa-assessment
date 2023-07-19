@@ -11,19 +11,54 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
+
     steps:
+
     - name: Install Node
       uses: actions/setup-node@v3
       with:
         node-version: '16'
+
+    - name: Install Test dependencies
+      run: |
+        npm ci
+
     - name: Install API
       uses: actions/checkout@v3
       with:
         repository: nicolo-riboni-sp/qa-app-api
         path: './temp/api'
         ref: 'develop'
-    - name: Install API deps and run
+
+    - name: Install API dependencies and run
       run: |
         cd ./temp/api
-        git config --global url."https://".insteadOf git:// && npm install
-        npm run start
+        npm ci
+        npm run start & npx wait-on http://localhost:8080
+      env:
+        CI: true
+
+    - name: Install UI
+      uses: actions/checkout@v3
+      with:
+        repository: nicolo-riboni-sp/qa-app-ui
+        path: './temp/ui'
+        ref: 'develop'
+
+    
+    - name: Install UI dependencies and run
+      run: |
+        cd ./temp/ui
+        npm ci
+        npm run dev & npx wait-on http://localhost:8081
+      env:
+        CI: true
+
+    - name: Run API tests
+      run: |
+        npm run test:api
+
+    - name: Run UI tests
+      run: |
+        npm run test:ui
+    
