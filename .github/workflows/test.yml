@@ -20,6 +20,7 @@ jobs:
       with:
         repository: nicolo-riboni-sp/qa-app-api-develop
         path: './temp/api'
+        ref: 'develop'
     - name: Install API deps and run
       run: |
         cd ./temp/api
