@@ -18,7 +18,7 @@ jobs:
     - name: Install API
       uses: actions/checkout@v3
       with:
-        repository: nicolo-riboni-sp/qa-app-api-develop
+        repository: nicolo-riboni-sp/qa-app-api
         path: './temp/api'
         ref: 'develop'
     - name: Install API deps and run
