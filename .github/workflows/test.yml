@@ -24,5 +24,5 @@ jobs:
     - name: Install API deps and run
       run: |
         cd ./temp/api
-        npm install
+        git config --global url."git@github.com:".insteadOf git://github.com/ && npm install
         npm run start
