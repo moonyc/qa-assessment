@@ -25,4 +25,4 @@ jobs:
       run: |
         cd ./temp/api
         npm install
-        npm start
+        npm run start
