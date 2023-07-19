@@ -1,0 +1,24 @@
+name: PullExternalRepo
+
+on:
+  pull-request:
+    branches:
+      - develop
+
+jobs:
+  Test:
+    runs-on: ubuntu-latest
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install external repo
+        uses: actions/checkout@v3
+        with:
+          repository: nicolo-riboni-sp/qa-app-api-develop
+          path: './temp/api'
+      - name: Install deps and run
+        run: |
+          cd ./temp/api
+          npm install
+          npm start
