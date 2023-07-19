@@ -1,34 +1,98 @@
+const { CreateUser } = require("../../page-objects/createUserObject");
+
+// VALID DATA
 
 describe('GIVEN valid data for a user', () => {
-  const name = 'Alex';
+  const name = 'Sasha';
   const balance = '1000';
 
-  describe('GIVEN that I can create a user', () => {
-    const createUserUrl = 'http://localhost:8081/create';
-
+  describe('WHEN I create a user', () => {
+    let createUserPage
     beforeAll(async () => {
-      await page.goto(createUserUrl);
+      createUserPage = new CreateUser(page)
+      await createUserPage.visit()
+      await createUserPage.createUser(name, balance)
+    });
 
-      // enter name
-      await page.waitForSelector('#name', { visible: true });
-      const fieldName = await page.$('#name');
-      await fieldName.click({ clickCount: 3 })
-      await fieldName.type(name);
+    it('THEN I can see the success message', async () => await createUserPage.assertSuccess());
+  });
+});
 
-      // enter balance
-      await page.waitForSelector('#balance', { visible: true });
-      const fieldBalance = await page.$('#balance');
-      await fieldBalance.click({ clickCount: 3 })
-      await fieldBalance.type(balance);
+// ADD NEW USER AFTER SUCCESS
 
-      // click submit
-      await page.waitForSelector('#createUser', { visible: true });
-      await page.click('#createUser');
+describe('GIVEN valid data for a user', () => {
+  const name = 'Sasha';
+  const balance = '1000';
+
+  describe('WHEN I create a user', () => {
+    let createUserPage
+    beforeAll(async () => {
+      createUserPage = new CreateUser(page)
+      await createUserPage.visit()
+      await createUserPage.createUser(name, balance)
+      await createUserPage.assertSuccess()
+
+      await createUserPage.addUser()
+
+      await createUserPage.createUser(name, balance)
+    });
+
+    it('THEN I can add a new user', async () => await createUserPage.assertSuccess());
+  });
+});
+
+// ABSENT USER
+
+describe('GIVEN empty user', () => {
+  const name = '';
+  const balance = '1000';
+
+  describe('WHEN I create a user', () => {
+    let createUserPage
+    beforeAll(async () => {
+      createUserPage = new CreateUser(page)
+      await createUserPage.visit()
+      await createUserPage.createUser(name, balance)
+    });
+
+    it('THEN I cannot see the success message', async () => await createUserPage.assertError());
+  });
+});
+
+// EMPTY BALANCE
+
+describe('GIVEN an empty balance', () => {
+  const name = 'Sasha';
+  const balance = '';
+
+  describe('WHEN I create a new user', () => {
+    let createUserPage
+    beforeAll(async () => {
+      createUserPage = new CreateUser(page)
+      await createUserPage.visit()
+      await createUserPage.createUser(name, balance)
+    });
+
+    it('THEN I can see the success message', async () => await createUserPage.assertSuccess());
+  });
+});
+
+// INVALID DATA: amount = string
+
+describe('GIVEN non numeric amount', () => {
+  const name = 'Sasha'
+  const balance = 'string';
+
+  describe("WHEN I try to insert the balance, it doens't write in the input AND balance is considered equal to zero", () => {
+    let createUserPage
+    beforeAll(async () => {
+      createUserPage = new CreateUser(page)
+      await createUserPage.visit()
+      await createUserPage.createUser(name, balance)
     });
 
     it('THEN I can see the success message', async () => {
-      const isSuccessMessageVisible = await page.waitForSelector('#successMessage', { visible: true });
-      expect(isSuccessMessageVisible).toBeTruthy();
-    });
+      await createUserPage.assertError()}
+      );
   });
 });
