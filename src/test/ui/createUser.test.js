@@ -55,7 +55,7 @@ describe('GIVEN empty user', () => {
       await createUserPage.createUser(name, balance)
     });
 
-    it('THEN I cannot see the success message', async () => await createUserPage.assertError());
+    it('THEN I cannot see the error message', async () => await createUserPage.assertError());
   });
 });
 

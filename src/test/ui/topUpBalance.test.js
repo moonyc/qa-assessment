@@ -31,7 +31,7 @@ describe('GIVEN an empty topup', () => {
       await topupBalancePage.updateBalance(topup)
     });
 
-    it('THEN I can see the success message', async () => await topupBalancePage.assertError());
+    it('THEN I can see the error message', async () => await topupBalancePage.assertError());
   });
 });
 

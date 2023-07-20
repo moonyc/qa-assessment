@@ -51,7 +51,7 @@ describe('GIVEN there is no user in persistence', () => {
         deleteResponse = await deleteUser(user.id, expectedStatus)
       });
   
-      it('THEN the user is not in persistence anymore', () => {
+      it('THEN an error message is returned', () => {
         expect(deleteResponse.message).toBe(`Cannot find User with id=${user.id}.`)
       });
     });

@@ -73,7 +73,7 @@ describe('GIVEN a user exists in persistence AND an falsy topup value is supplie
         updatedUser = await getUser(user.id)
       });
   
-      it("THEN an error message is received", () => {
+      it("THEN an error message is returned", () => {
         expect(updatedUser.balance - user.balance).toBe(0)
         expect(updateResponse.message).toBe("Content can not be empty!")
       });
@@ -114,7 +114,7 @@ describe('GIVEN a user exists in persistence AND an falsy topup value is supplie
 //         updatedUser = await getUser(user.id)
 //       });
   
-//       it("THEN an error message is received", () => {
+//       it("THEN an error message is returned", () => {
 //         expect(updatedUser.balance - user.balance).toBe(0)
 //         expect(updateResponse.message).toBe("Value must be a number!")
 //       });
@@ -144,7 +144,7 @@ describe('GIVEN a user exists in persistence AND a negative topup value is suppl
         updatedUser = await getUser(user.id)
       });
   
-      it("THEN an error message is received", () => {
+      it("THEN an error message is returned", () => {
         expect(updatedUser.balance - user.balance).toBe(0)
         expect(updateResponse.message).toBe("Value must be a positive number!")
       });
