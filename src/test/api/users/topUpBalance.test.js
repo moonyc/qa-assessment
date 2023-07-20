@@ -31,13 +31,11 @@ describe('GIVEN a user exists in persistence AND a valid topup value is supplied
     });
 });
 
-// TOPUP USER BALANCE BY ID
+// NON-EXISTING USER
 
 describe('GIVEN a user does not exist in persistence AND a valid topup value is supplied', () => {
     let user
     let updateResponse
-    let updatedUser
-
     const expectedStatus = 500
     const balance = 0
     const topup = 1
@@ -50,7 +48,7 @@ describe('GIVEN a user does not exist in persistence AND a valid topup value is 
         updateResponse = await topUpBalance(user.id, topup, expectedStatus)
       });
   
-      it("THEN the user's balance is updated", () => {
+      it("THEN an error message is returned", () => {
         expect(updateResponse.message).toBe("Error retrieving User with id=" + user.id)
       });
     });
