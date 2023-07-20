@@ -5,21 +5,12 @@ exports.makeAxiosRequestWithExpectedStatus = async (requestParams, expectedStatu
     ...requestParams,
     headers: exports.removeUndefinedValuesFromObject(requestParams.headers),
   };
-  try {
-    const response = await axios({ ...defaultAxiosRequestParams, ...cleanedRequestParams });
-    if (response.status !== expectedStatus) {
-      // eslint-disable-next-line no-console
-      console.error(`Expected status: ${expectedStatus} but received status ${response.status}`);
-      throw response;
-    }
-    return response;
-  } catch (error) {
-    const attemptedRequestDetailsMessage = `Failed to make request with: ${JSON.stringify(cleanedRequestParams)}`;
-    const receivedErrorMessage = `Received error: ${JSON.stringify(error.data || error)}`;
-    // eslint-disable-next-line no-console
-    console.error(`${attemptedRequestDetailsMessage}\n${receivedErrorMessage}`);
-    expect(error.data || error).toBe(null);
-  }
+  
+  const response = await axios({ ...defaultAxiosRequestParams, ...cleanedRequestParams });
+  
+  expect(response.status).toBe(expectedStatus)
+
+  return response;
 };
 
 const defaultAxiosRequestParams = {
@@ -34,3 +25,16 @@ exports.removeUndefinedValuesFromObject = (object) => {
   }
   return Object.fromEntries(Object.entries(object).filter((entry) => entry[1] !== undefined));
 };
+
+exports.containsObject = (array, obj) => {
+  return array.some(element => element.id == obj.id)
+}
+exports.containsAll = (array, target) => {
+  for (let element of target) {
+    if (!this.containsObject(array, element)) {
+      return false
+    }
+  }
+
+  return true
+}

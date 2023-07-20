@@ -1,6 +1,6 @@
 module.exports = {
   launch: {
-    headless: false,
+    headless: true,
     slowMo: 10,
     defaultViewport: null,
     args: ['--window-size=1920,1080', '--no-sandbox', '--disable-setuid-sandbox', '--disable-web-security', '--disable-dev-shm-usage', '--shm-size=6gb',
